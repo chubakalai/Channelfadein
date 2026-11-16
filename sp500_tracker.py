@@ -10,9 +10,9 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 # --- CONFIGURATION ---
-ANCHOR_DATE_STR = "1970-01-02"   # Set your desired start date (e.g., "1970-01-02", "2016-11-04")
+ANCHOR_DATE_STR = "2026-11-16"   # Set your desired start date (e.g., "1970-01-02", "2016-11-04")
 RISK_SCALING_FACTOR = 1000.0     # Adjust risk scaling factor
-HTTP_HOST = "127.0.0.1"          # Use "0.0.0.0" to expose on your network
+HTTP_HOST = "0.0.0.0"          # Use "0.0.0.0" to expose on your network
 HTTP_PORT = 8000
 LOOP_SECONDS = 60
 MAX_HISTORY = 5000               # Max points kept in memory for the chart
