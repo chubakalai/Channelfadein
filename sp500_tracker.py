@@ -48,7 +48,7 @@ def init_storage(anchor_date):
         print(f"WARNING: cannot write to {DATA_DIR} ({e}). Running WITHOUT persistence.")
         return 0.0, 0.0, None, False
 
-    config = {"anchor": str(anchor_date), "scale": RISK_SCALING_FACTOR}
+    config = {"anchor": str(anchor_date), "scale": RISK_SCALING_FACTOR, "pnl_model": "usd_notional_v2"}
     old = None
     if os.path.exists(META_FILE):
         try:
@@ -456,9 +456,11 @@ def live_tracking_loop():
 
         c_hat_t = math.exp(alpha + beta * t_live)
 
-        # Mark-to-market PnL: position held over the last interval x price change
+        # Mark-to-market PnL: position is a USD notional, so PnL = notional x simple return
+        # over the last interval (NOT x price change in index points, which would treat
+        # the position as a number of index units).
         if last_price is not None:
-            cumulative_pnl += current_position_size * (c_t - last_price)
+            cumulative_pnl += current_position_size * (c_t / last_price - 1.0)
         last_price = c_t
 
         # --- LOG-SPACE FORMULA ---
